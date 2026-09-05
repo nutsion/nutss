@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NUTS Store — Jasa Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            background: #080b12;
+            background-image: radial-gradient(circle at 30% 20%, #0d1a2b, #020406 95%);
+        }
+
+        .store-card {
+            max-width: 860px;
+            width: 100%;
+            background: rgba(8, 13, 24, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 3rem;
+            padding: 2.5rem 2.8rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(30, 144, 255, 0.15), 0 0 80px rgba(0, 80, 200, 0.08);
+            border: 1px solid rgba(50, 150, 255, 0.12);
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.5s ease, transform 0.3s ease;
+        }
+
+        .store-card:hover {
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95), 0 0 60px rgba(30, 144, 255, 0.2), 0 0 100px rgba(0, 80, 200, 0.12);
+        }
+
+        .store-card::before {
+            content: '';
+            position: absolute;
+            top: -15%;
+            left: -10%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(30, 144, 255, 0.15) 0%, transparent 70%);
+            filter: blur(70px);
+            z-index: 0;
+            animation: glowPulse 8s ease-in-out infinite alternate;
+        }
+
+        .store-card::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            right: -10%;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(0, 120, 255, 0.1) 0%, transparent 70%);
+            filter: blur(80px);
+            z-index: 0;
+            animation: glowPulse 10s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes glowPulse {
+            0% {
+                opacity: 0.6;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        .store-card>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        .store-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .brand {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #b8d8ff, #4a8eff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(30, 144, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand i {
+            color: #4a8eff;
+            font-size: 2rem;
+            filter: drop-shadow(0 0 15px #1e90ff);
+            animation: iconFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        .badge-glow {
+            background: rgba(30, 144, 255, 0.1);
+            padding: 0.4rem 1.4rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #9ac8ff;
+            border: 1px solid rgba(30, 144, 255, 0.2);
+            box-shadow: 0 0 20px rgba(30, 144, 255, 0.05);
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(2px);
+            transition: all 0.3s ease;
+        }
+
+        .badge-glow:hover {
+            background: rgba(30, 144, 255, 0.18);
+            border-color: rgba(30, 144, 255, 0.4);
+            box-shadow: 0 0 30px rgba(30, 144, 255, 0.1);
+        }
+
+        .profile-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 0.6rem 0 1.6rem 0;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0d2847, #0a1a30);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2.5px solid rgba(30, 144, 255, 0.4);
+            box-shadow: 0 0 30px rgba(30, 144, 255, 0.2), inset 0 0 40px rgba(30, 144, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            cursor: default;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-avatar::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            padding: 3px;
+            background: conic-gradient(from 0deg, #1e90ff, #7bbaff, #1e90ff, #7bbaff, #1e90ff);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+            animation: spinGlow 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes spinGlow {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 0 50px rgba(30, 144, 255, 0.4);
+            border-color: rgba(30, 144, 255, 0.7);
+        }
+
+        .tagline {
+            color: #d6e6ff;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 1.8rem;
+            border-left: 3px solid #1e90ff;
+            padding: 0.4rem 0 0.4rem 1.2rem;
+            background: linear-gradient(90deg, rgba(30, 144, 255, 0.06), transparent);
+            border-radius: 0 14px 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            transition: background 0.3s ease;
+        }
+
+        .tagline:hover {
+            background: linear-gradient(90deg, rgba(30, 144, 255, 0.1), transparent);
+        }
+
+        .tagline i {
+            color: #1e90ff;
+            font-size: 1.2rem;
+            animation: iconFloat 5s ease-in-out infinite;
+        }
+
+        .tagline span {
+            background: rgba(30, 144, 255, 0.12);
+            padding: 0.1rem 0.8rem;
+            border-radius: 30px;
+            font-weight: 500;
+            color: #b3d9ff;
+            transition: all 0.3s ease;
+        }
+
+        .tagline span:hover {
+            background: rgba(30, 144, 255, 0.2);
+        }
+
+        .price-section {
+            background: rgba(0, 18, 40, 0.35);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            padding: 1.6rem 2rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid rgba(30, 144, 255, 0.1);
+            box-shadow: inset 0 0 40px rgba(0, 60, 180, 0.03);
+            transition: all 0.4s ease;
+        }
+
+        .price-section:hover {
+            border-color: rgba(30, 144, 255, 0.2);
+            background: rgba(0, 18, 40, 0.45);
+        }
+
+        .price-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #7bbaff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.2rem;
+            border-bottom: 1px dashed rgba(30, 144, 255, 0.15);
+            padding-bottom: 0.7rem;
+        }
+
+        .price-title i {
+            color: #1e90ff;
+            font-size: 1.4rem;
+        }
+
+        .price-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 1rem;
+            color: #cde0ff;
+            font-size: 1rem;
+            line-height: 1.5;
+            padding: 0.3rem 0.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .price-item:hover {
+            background: rgba(30, 144, 255, 0.04);
+            transform: translateX(4px);
+        }
+
+        .price-item i {
+            color: #4a8eff;
+            font-size: 1.15rem;
+            margin-top: 0.2rem;
+            min-width: 24px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .price-item:hover i {
+            transform: scale(1.1);
+        }
+
+        .price-item strong {
+            color: #a8cbff;
+            font-weight: 600;
+        }
+
+        .price-item .highlight {
+            color: #7bbaff;
+            background: rgba(30, 144, 255, 0.1);
+            padding: 0 10px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        .price-item .small-note {
+            font-size: 0.85rem;
+            color: #8aafdf;
+            display: block;
+            margin-top: 2px;
+            padding-left: 2px;
+        }
+
+        .price-item .badge-phising {
+            background: rgba(255, 70, 70, 0.1);
+            border: 1px solid rgba(255, 80, 80, 0.12);
+            padding: 0.1rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #ff8a8a;
+            display: inline-block;
+            margin-left: 4px;
+        }
+
+        .divider-glow {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #1e90ff, #4a8eff, #1e90ff, transparent);
+            margin: 1rem 0 1.2rem 0;
+            opacity: 0.25;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.7rem;
+            margin: 1.2rem 0 0.5rem;
+        }
+
+        .feature-item {
+            background: rgba(0, 30, 60, 0.2);
+            border-radius: 2rem;
+            padding: 0.6rem 1rem 0.6rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(30, 144, 255, 0.06);
+            backdrop-filter: blur(2px);
+            font-size: 0.9rem;
+            color: #c4daff;
+            font-weight: 400;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .feature-item i {
+            color: #3b9eff;
+            font-size: 1.1rem;
+            width: 22px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(30, 144, 255, 0.08);
+            border-color: rgba(30, 144, 255, 0.2);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 4px 15px rgba(30, 144, 255, 0.05);
+        }
+
+        .feature-item:hover i {
+            transform: scale(1.15);
+        }
+
+        .extra-badge {
+            color: #8fb6f0;
+            font-size: 0.9rem;
+            margin-top: 0.8rem;
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            border-left: 2px solid #1e90ff;
+            padding-left: 14px;
+        }
+
+        .extra-badge span {
+            transition: all 0.3s ease;
+        }
+
+        .extra-badge span:hover {
+            color: #b3d9ff;
+            transform: translateX(2px);
+        }
+
+        .extra-badge span i {
+            color: #1e90ff;
+            margin-right: 4px;
+        }
+
+        .contact-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(30, 144, 255, 0.08);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #b0ceff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
+        }
+
+        .contact-item:hover {
+            background: rgba(30, 144, 255, 0.05);
+            transform: translateX(2px);
+        }
+
+        .contact-item i {
+            color: #1e90ff;
+            width: 24px;
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 6px #1e90ff30);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover i {
+            transform: scale(1.1);
+        }
+
+        .contact-item a {
+            color: #b0ceff;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(30, 144, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: #ffffff;
+            border-bottom-color: #1e90ff;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #1a5bbf, #0b3d8a);
+            border: none;
+            padding: 0.7rem 2rem;
+            border-radius: 60px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 25px rgba(30, 144, 255, 0.2);
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: default;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.04) translateY(-2px);
+            box-shadow: 0 0 45px rgba(30, 144, 255, 0.35);
+            background: linear-gradient(135deg, #2a6ddb, #0f4a9e);
+            border-color: rgba(30, 144, 255, 0.6);
+        }
+
+        .cta-button:hover i {
+            transform: rotate(-10deg) scale(1.1);
+        }
+
+        .footnote {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #5a7fa8;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+            flex-wrap: wrap;
+            letter-spacing: 0.3px;
+        }
+
+        .footnote span {
+            transition: all 0.3s ease;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+        }
+
+        .footnote span:hover {
+            color: #8fb6f0;
+            background: rgba(30, 144, 255, 0.04);
+        }
+
+        .footnote i {
+            color: #2d7edb;
+            margin-right: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .store-card {
+                padding: 1.6rem;
+                border-radius: 2rem;
+            }
+            .brand {
+                font-size: 1.7rem;
+            }
+            .profile-avatar {
+                width: 95px;
+                height: 95px;
+            }
+            .price-item {
+                flex-wrap: wrap;
+            }
+            .contact-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .contact-info {
+                justify-content: center;
+            }
+            .cta-button {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .store-card {
+                padding: 1.2rem;
+            }
+            .brand {
+                font-size: 1.4rem;
+            }
+            .profile-avatar {
+                width: 80px;
+                height: 80px;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .price-section {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="store-card">
+
+        <div class="store-header">
+            <div class="brand">
+                <i class="fas fa-cube"></i> NUTS STORE
+            </div>
+            <div class="badge-glow">
+                <i class="fas fa-bolt" style="margin-right: 5px;"></i> siap bantu
+            </div>
+        </div>
+
+        <!-- ===== FOTO PROFIL DARI URL ===== -->
+        <div class="profile-wrapper">
+            <div class="profile-avatar">
+                <img src="https://files.catbox.moe/2gww9g.jpg" alt="Profil NUTS" />
+            </div>
+        </div>
+
+        <div class="tagline">
+            <i class="fas fa-rocket"></i> Mau punya website sendiri tapi bingung mulai dari mana?
+            <span>NUTS</span> siap bantu buatkan website sesuai kebutuhan kamu! 😎
+        </div>
+
+        <div class="price-section">
+            <div class="price-title">
+                <i class="fas fa-tag"></i> 💻 PRICE LIST
+            </div>
+
+            <div class="price-item">
+                <i class="fas fa-folder-open"></i>
+                <div>
+                    <strong>Portofolio, list store, dll (simple)</strong>
+                    <span class="highlight">10-20k</span>
+                    <span class="small-note"><i class="fas fa-circle" style="font-size: 0.4rem; vertical-align: middle; color: #4a8eff;"></i> no backend</span>
+                </div>
+            </div>
+
+            <div class="price-item">
+                <i class="fas fa-pencil-ruler"></i>
+                <div>
+                    <strong>Custom?</strong> tergantung kesulitan website
+                    <span class="small-note"><i class="fas fa-arrow-right" style="color: #4a8eff;"></i> diskusi dulu biar pas</span>
+                </div>
+            </div>
+
+            <div class="price-item">
+                <i class="fas fa-skull"></i>
+                <div>
+                    <strong>Website phising</strong>
+                    <span class="highlight">15k</span>
+                    <span class="badge-phising"><i class="fas fa-exclamation-triangle"></i> khusus</span>
+                    <span class="small-note">
+                        <i class="fas fa-check-circle" style="color: #4a8eff;"></i> bisa mendapatkan foto user, alamat IP, dan info device lainnya
+                    </span>
+                </div>
+            </div>
+
+            <div class="divider-glow"></div>
+
+            <div class="feature-grid">
+                <div class="feature-item"><i class="fas fa-palette"></i> Request desain</div>
+                <div class="feature-item"><i class="fas fa-mobile-alt"></i> Responsive HP & PC</div>
+                <div class="feature-item"><i class="fas fa-globe"></i> Pilih domain</div>
+                <div class="feature-item"><i class="fas fa-server"></i> File manager</div>
+            </div>
+
+            <div class="extra-badge">
+                <span><i class="fas fa-check-circle"></i> dapet website + file manager</span>
+                <span><i class="fas fa-check-circle"></i> domain bisa pilih</span>
+            </div>
+        </div>
+
+        <div class="contact-row">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-globe-asia"></i>
+                    <span>website : <a href="#" style="pointer-events: none;">nuts-store.my.id</a></span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>tele : <a href="#" style="pointer-events: none;">@nuts_web</a></span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>butuh? <span style="color: #7bbaff; font-weight: 500;">pv</span></span>
+                </div>
+            </div>
+            <div class="cta-button">
+                <i class="fas fa-bolt"></i> hubungi sekarang
+            </div>
+        </div>
+
+        <div class="footnote">
+            <span><i class="fas fa-shield-alt"></i> aman & terpercaya</span>
+            <span><i class="fas fa-crown"></i> NUTS 2026</span>
+            <span><i class="fas fa-code"></i> siap bantu 24/7</span>
+        </div>
+    </div>
+</body>
+</html>
